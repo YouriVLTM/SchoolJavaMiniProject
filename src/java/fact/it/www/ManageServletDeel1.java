@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * @author yourivanlaer
  */
 @WebServlet(name = "ManageServlet", urlPatterns = {"/ManageServlet"})
-public class ManageServlet extends HttpServlet {
+public class ManageServletDeel1 extends HttpServlet {
     
     ArrayList<Personeelslid> persooneelLijst = new ArrayList<>();
     ArrayList<Bezoeker> bezoekersLijst = new ArrayList<>();
