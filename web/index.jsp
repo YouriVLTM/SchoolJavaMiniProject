@@ -15,5 +15,7 @@
         <h1>Welkom op onze pretpark</h1>
         <p>In de volgende link kan u een nieuwe gebruiker aanmaken</p>
         <a href="nieuwBezoeker.jsp">Nieuw bezoeker aanmaken</a>
+        <a href="nieuwPretpark.jsp">Nieuw pretpark aanmaken</a>
+        <a href="nieuwPersoneelslid.jsp">Nieuw Persoonslid aanmaken</a>
     </body>
 </html>
