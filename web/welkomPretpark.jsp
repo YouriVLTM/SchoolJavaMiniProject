@@ -25,7 +25,7 @@
                <label><%=attractie.getNaam() %> </label>
                <label><%=attractie.getFoto()%> </label>
                <label><%=attractie.getDuur()%> </label>
-               <label><%=attractie.getVerantwoordelijke()%> </label>
+               <label><%=attractie.getVerantwoordelijke().getVoornaam()%> </label>
                <br>
            <% } %>
         
