@@ -8,7 +8,7 @@
 <%@page import="java.util.ArrayList"%>
 <%ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,8 +39,8 @@
              <br>
              
             <% for (Pretpark pretpark : pretparken){ %>
-                <input type="radio" name="pretparknaam" value="<%=pretpark.getNaam()%>" id="<%=pretpark.getNaam()%>">
-                <label for="<%=pretpark.getNaam() %>"><%=pretpark.getNaam()%></label>
+            <input type="radio" name="pretparkindex" value="<%=pretparken.indexOf(pretpark)%>" id="<%=pretparken.indexOf(pretpark)%>">
+                <label for="<%=pretparken.indexOf(pretpark)%>"><%=pretpark.getNaam()%></label>
              <%}%>
         
              <br>

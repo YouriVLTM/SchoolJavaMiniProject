@@ -7,8 +7,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="fact.it.www.beans.*;"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% Pretpark pretpark = (Pretpark)session.getAttribute("pretpark");%>
-<%ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");%>
+<% Pretpark pretpark = (Pretpark)request.getAttribute("pretpark");%>
+<%ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) request.getAttribute("personeelsleden");%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,7 +17,7 @@
     </head>
     <body>
         <h1>Maak een nieuwe attractie aan</h1>
-        <form action="MaakServlet" method="post" >
+        <form action="MaakServlet" method="post">
             <p><label for="pretparknaam">Pretpark naam:</label>
                 <input type="text" id="pretparknaam" name="pretparknaam" value="<%=pretpark.getNaam() %>" size="10" /></p>
             

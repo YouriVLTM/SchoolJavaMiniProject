@@ -7,13 +7,8 @@
 <%@page import="fact.it.www.beans.*;"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<% //Personeelslid personeelslid = (Personeelslid)(request.getAttribute("personeelslid"));
-%>
 
-
-<%ArrayList<Personeelslid> personeelsleden = 
-(ArrayList<Personeelslid>) session.getAttribute("personeelsleden");%>
+<%ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");%>
 
 <!DOCTYPE html>
 <html>

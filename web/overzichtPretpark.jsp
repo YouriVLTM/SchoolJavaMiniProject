@@ -6,8 +6,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="fact.it.www.beans.*;"%>
-<%ArrayList<Pretpark> pretparken = 
-(ArrayList<Pretpark>) session.getAttribute("pretparken");%>
+<%ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");%>
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,9 +21,11 @@
         <% if (session.getAttribute("pretparken") == null){ %>
             <h1> De pretparken zijn leeg </h1>
         <% }else{ %>
+        
          <% for (Pretpark pretpark : pretparken){ %>
-         <p>Naam: <span><%=pretpark.getNaam()%> </span></p>
-
+         <a href="MaakServlet?pretpark=<%=pretparken.indexOf(pretpark)%>"><%=pretpark.getNaam()%></a>
+         <br>
          <%} }%>
+         
     </body>
 </html>

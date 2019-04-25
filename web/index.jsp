@@ -20,6 +20,7 @@
         <a href="OpvulServlet?actie=opvullen">Opvullen</a>
         <a href="overzichtBezoeker.jsp">Overzicht van bezoekers</a>
         <a href="overzichtPretpark.jsp">Overzicht van pretparken</a>
+        <a href="overzichtPersoneelslid.jsp">Overzicht van personeelslid</a>
 
 
     </body>
