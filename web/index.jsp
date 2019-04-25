@@ -17,5 +17,10 @@
         <a href="nieuwBezoeker.jsp">Nieuw bezoeker aanmaken</a>
         <a href="nieuwPretpark.jsp">Nieuw pretpark aanmaken</a>
         <a href="nieuwPersoneelslid.jsp">Nieuw Persoonslid aanmaken</a>
+        <a href="OpvulServlet?actie=opvullen">Opvullen</a>
+        <a href="overzichtBezoeker.jsp">Overzicht van bezoekers</a>
+        <a href="overzichtPretpark.jsp">Overzicht van pretparken</a>
+
+
     </body>
 </html>

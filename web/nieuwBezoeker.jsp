@@ -4,6 +4,10 @@
     Author     : yourivanlaer
 --%>
 
+<%@page import="fact.it.www.beans.Pretpark"%>
+<%@page import="java.util.ArrayList"%>
+<%ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -34,10 +38,9 @@
              <br>
              <br>
              
-             <% String[] pretparkLijst = new String[]{ "Pret1", "Pret2","Pret3","Pret4" };  %>
-            <% for (String pretpark : pretparkLijst){ %>
-                <input type="radio" name="pretparknaam" value="<%=pretpark%>" id="<%=pretpark%>">
-                <label for="<%=pretpark%>"><%=pretpark%></label>
+            <% for (Pretpark pretpark : pretparken){ %>
+                <input type="radio" name="pretparknaam" value="<%=pretpark.getNaam()%>" id="<%=pretpark.getNaam()%>">
+                <label for="<%=pretpark.getNaam() %>"><%=pretpark.getNaam()%></label>
              <%}%>
         
              <br>

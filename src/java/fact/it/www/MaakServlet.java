@@ -16,6 +16,7 @@ import fact.it.www.*;
 import fact.it.www.beans.*;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,6 +39,8 @@ public class MaakServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
+            
             
             if(request.getParameter("nieuwbezoeker") !=null){
                 
@@ -56,9 +59,21 @@ public class MaakServlet extends HttpServlet {
                 if (!attractie.equals("geen")){
                     bezoeker.voegToeAanWishlist(attractie);
                 }
-
-
-                request.setAttribute("Bezoeker", bezoeker);
+                
+                // haal de array op
+                ArrayList<Bezoeker> bezoekers = (ArrayList<Bezoeker>) session.getAttribute("bezoekers");
+                // kijken of de array bestaat 
+                if (bezoekers == null) {                    
+                    bezoekers = new ArrayList<>();
+                    bezoekers.add(bezoeker);
+                }else{
+                    // als de sessie al reeds bestaat 
+                    bezoekers.add(bezoeker);                    
+                }
+                
+                //request.setAttribute("Bezoeker", bezoeker)               
+                session.setAttribute("bezoekers", bezoekers);
+                
                 RequestDispatcher rd = request.getRequestDispatcher("welkom.jsp");
                 rd.forward(request, response);
                 
@@ -72,27 +87,64 @@ public class MaakServlet extends HttpServlet {
                 Pretpark pretpark = new Pretpark(pretparknaam);
                 Bezoeker bezoeker = new Bezoeker(voornaam, achternaam);
                 Attractie attractie = new Attractie(attractienaam);
-                pretpark.voegAttractieToe(attractie);
+                
+                // nog bekijken? 
+                // kijken of deze attractie bestaat 
+                if (pretpark.zoekAttractieOpNaam(attractie.getNaam()) == null){
+                    pretpark.voegAttractieToe(attractie);
+                }
                 pretpark.registreerBezoeker(bezoeker);
                 
                  if (!attractie.equals("geen")){
                     bezoeker.voegToeAanWishlist(attractienaam);
                 }
                 
-                request.setAttribute("Bezoeker", bezoeker);
+                
+                
+                // haal de array op
+                ArrayList<Bezoeker> bezoekers = (ArrayList<Bezoeker>) session.getAttribute("bezoekers");
+                // kijken of de array bestaat 
+                if (bezoekers == null) {                    
+                    bezoekers = new ArrayList<>();
+                    bezoekers.add(bezoeker);
+                }else{
+                    // als de sessie al reeds bestaat 
+                    bezoekers.add(bezoeker);                    
+                }
+                
+                //request.setAttribute("Bezoeker", bezoeker);              
+                session.setAttribute("bezoekers", bezoekers);
+                
+                
                 RequestDispatcher rd = request.getRequestDispatcher("welkom.jsp");
                 rd.forward(request, response);
             
             
             
             }else if(request.getParameter("nieuwpretpark") !=null){
-                String pretparkNaam = request.getParameter("naam"); 
-                
-                
+                String pretparkNaam = request.getParameter("naam");                
                 // Hoeft eignelijk niet
                 Pretpark pretpark = new Pretpark(pretparkNaam);
                 
-                request.setAttribute("pretpark", pretpark);
+                // haal de array op
+                ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
+                // kijken of de array bestaat 
+                if (pretparken == null) {                    
+                    pretparken = new ArrayList<>();
+                    pretparken.add(pretpark);
+                }else{
+                    // als de sessie al reeds bestaat 
+                    pretparken.add(pretpark);                    
+                }
+                
+                // persooneelsledne 
+                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                
+                //request.setAttribute("pretpark", pretpark);              
+                session.setAttribute("pretpark", pretparken.get(pretparken.size() - 1));
+                session.setAttribute("personeelsleden", personeelsleden);
+
+                
                 RequestDispatcher rd = request.getRequestDispatcher("nieuwAttractie.jsp");
                 rd.forward(request, response);
                 
@@ -104,7 +156,7 @@ public class MaakServlet extends HttpServlet {
                 String personeelslidVerantwoordlijke = request.getParameter("personeelslidverandwoordelijke");
 
                 /*moet lijst aangemaatk worden?*/
-                ArrayList<Personeelslid> personeelslidLijst = new ArrayList();
+                /*ArrayList<Personeelslid> personeelslidLijst = new ArrayList();
                 String[] splitpersoneelslidVerantwoordlijke = personeelslidVerantwoordlijke.split("-");
                 personeelslidLijst.add(new Personeelslid(splitpersoneelslidVerantwoordlijke[0],splitpersoneelslidVerantwoordlijke[1]));
                 personeelslidLijst.add(new Personeelslid("Mamie", "Van Laer"));
@@ -113,10 +165,10 @@ public class MaakServlet extends HttpServlet {
                 
                 Pretpark pretpark = new Pretpark(pretparkNaam);
                 Attractie attractie = new Attractie(attractieNaam,duur);
-                attractie.setFoto(fotoBestand);
+                attractie.setFoto(fotoBestand);*/
                 
                 /*extra attractie toevoegen*/
-                ArrayList<Attractie> attractieLijst = new ArrayList<>();
+               /* ArrayList<Attractie> attractieLijst = new ArrayList<>();
                 attractieLijst.add(new Attractie("Att2",10));
                 attractieLijst.add(new Attractie("Att3",20));
                 attractieLijst.add(new Attractie("Att4",30));
@@ -126,16 +178,50 @@ public class MaakServlet extends HttpServlet {
                     pretpark.voegAttractieToe(attracti);
                 }
                 /* voer verantwoordelijke toe*/
-                attractieLijst.get(0).setVerantwoordelijke(personeelslidLijst.get(1));
+               /* attractieLijst.get(0).setVerantwoordelijke(personeelslidLijst.get(1));
                 attractieLijst.get(1).setVerantwoordelijke(personeelslidLijst.get(2));
                 attractieLijst.get(2).setVerantwoordelijke(personeelslidLijst.get(3));
 
                                 
                 /*Form ingegeven attractie*/
-                attractie.setVerantwoordelijke(personeelslidLijst.get(0));
+                /*attractie.setVerantwoordelijke(personeelslidLijst.get(0));                
                 pretpark.voegAttractieToe(attractie);
                 
-
+*/              
+                //NEW
+                // kijken of het pretpark al bestaat 
+                ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
+                //serach for pretpark
+                
+                
+                Pretpark pretpark = new Pretpark(pretparkNaam);
+                
+                // kijken of de array bestaat 
+                if (pretparken == null) {                    
+                    pretparken = new ArrayList<>();
+                    pretparken.add(pretpark);
+                }else{
+                    // als de sessie al reeds bestaat 
+                    pretparken.add(pretpark);                    
+                }
+                
+                //attractie
+                Attractie attractie = new Attractie(attractieNaam);
+                attractie.setDuur(duur);
+                attractie.setFoto(fotoBestand);
+                
+                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                // zoek juist personeelslid
+                for (Personeelslid personeel : personeelsleden){
+                    if((personeel.getVoornaam() + "-" +personeel.getFamilienaam()).equals(personeelslidVerantwoordlijke)){
+                        attractie.setVerantwoordelijke(personeel);
+                    }
+                }
+                
+                
+                // attractie toevoegen aan pretpark
+                pretpark.voegAttractieToe(attractie);
+                
                 
                 request.setAttribute("pretpark", pretpark);
                 RequestDispatcher rd = request.getRequestDispatcher("welkomPretpark.jsp");
@@ -146,7 +232,21 @@ public class MaakServlet extends HttpServlet {
                 String achternaam = request.getParameter("achternaam");
                 Personeelslid personeelslid = new Personeelslid(voornaam, achternaam);
                 
-                request.setAttribute("personeelslid", personeelslid);
+                // haal de array op
+                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                // kijken of de array bestaat 
+                if (personeelsleden == null) {                    
+                    personeelsleden = new ArrayList<>();
+                    personeelsleden.add(personeelslid);
+                }else{
+                    // als de sessie al reeds bestaat 
+                    personeelsleden.add(personeelslid);                    
+                }
+                
+                // request.setAttribute("personeelslid", personeelslid);
+               
+                session.setAttribute("personeelsleden", personeelsleden);
+
                 RequestDispatcher rd = request.getRequestDispatcher("welkomPersoneelslid.jsp");
                 rd.forward(request, response);
             }

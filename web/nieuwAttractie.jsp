@@ -7,9 +7,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="fact.it.www.beans.*;"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<% Pretpark pretpark = (Pretpark)(request.getAttribute("pretpark"));
-%>
+<% Pretpark pretpark = (Pretpark)session.getAttribute("pretpark");%>
+<%ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,14 +30,10 @@
             <br>
             <br>
             
-            <% ArrayList<Personeelslid> personeelslidLijst = new ArrayList(); %>
-            <% personeelslidLijst.add(new Personeelslid("Youri", "Van Laer")); %>
-            <% personeelslidLijst.add(new Personeelslid("Lorenzo", "Van Laer")); %>
-            <% personeelslidLijst.add(new Personeelslid("Claudia", "Van Laer")); %>
             
             
             <select name="personeelslidverandwoordelijke">
-                <% for (Personeelslid personeelslid : personeelslidLijst){ %>
+                <% for (Personeelslid personeelslid : personeelsleden){ %>
                     <option value= "<%=personeelslid.getVoornaam() + "-"+ personeelslid.getFamilienaam()%>"><%=personeelslid.getVoornaam() + " " + personeelslid.getFamilienaam()%></option>
                <%}%>
              </select> 
