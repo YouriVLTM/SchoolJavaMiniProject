@@ -21,7 +21,14 @@
         <a href="overzichtBezoeker.jsp">Overzicht van bezoekers</a>
         <a href="overzichtPretpark.jsp">Overzicht van pretparken</a>
         <a href="overzichtPersoneelslid.jsp">Overzicht van personeelslid</a>
+        <a href="Pretparkdate.jsp">Overzicht van Pretparkdate</a>
 
+        
+        <form action="MaakServlet" method="POST">
+            <p><label for="attractieNaam">Zoek attractie</label>
+                <input type="text" id="attractieNaam" name="attractieNaam" value="" size="10" /></p>
+            <input type="submit" name="zoekAttractie" value="Zoek de attractie op" />
+        </form>
 
     </body>
 </html>

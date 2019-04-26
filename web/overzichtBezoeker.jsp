@@ -6,9 +6,8 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="fact.it.www.beans.*;"%>
-<%ArrayList<Bezoeker> bezoekers = 
-(ArrayList<Bezoeker>) session.getAttribute("bezoekers");%>
-
+<%ArrayList<Bezoeker> bezoekers = (ArrayList<Bezoeker>) session.getAttribute("bezoekers");%>
+<%ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,8 +23,14 @@
         <% }else{ %>
          <% for (Bezoeker bezoeker : bezoekers){ %>
          <p>Naam: <span><%=bezoeker.getVoornaam()%> <%=bezoeker.getFamilienaam()%></span></p>
-         <p>Pretparkcode :  <span><%=bezoeker.getPretparkcode()%></span></p>
-
+         <p>Pretparkcode :  <span><%=bezoeker.getPretparkcode()%></span></p>                
+            <p>Dit zijn u pretpark matchen:</p>
+            <% for (Pretpark pretpark : pretparken){ %>
+            <p><%=pretpark.getNaam() %> : <%=pretpark.pretparkMatch(bezoeker) %></p>
+            <% }%>
+         
          <%} }%>
+         
+         
     </body>
 </html>

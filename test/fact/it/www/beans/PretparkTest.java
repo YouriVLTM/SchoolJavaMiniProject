@@ -96,6 +96,8 @@ public class PretparkTest {
         assertEquals(pulsar.getNaam(), walibi.zoekAttractieOpNaam("Pulsar").getNaam());
         assertNull(walibi.zoekAttractieOpNaam("blabla"));
     }
+    
+    
 
     /**
      * before a Visitor can make his reservations, he has to register to the

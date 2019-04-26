@@ -54,9 +54,13 @@ public class MaakServlet extends HttpServlet {
                 String voornaam = request.getParameter("voornaam");
                 String achternaam = request.getParameter("achternaam");
                 String attractie = request.getParameter("attractienaam");
+                int geboortejaar = Integer.parseInt(request.getParameter("geboortejaar"));
                 
                 // Bezoeker aanmaken
                 Bezoeker bezoeker = new Bezoeker(voornaam, achternaam);
+                // bezoeker geboortedatum toevoegen 
+                bezoeker.setGeboortejaar(geboortejaar);
+                
                 /*if(bezocht){
                     bezoeker.setPretparkcode(1000);
                 }*/
@@ -248,7 +252,119 @@ public class MaakServlet extends HttpServlet {
                 rd = request.getRequestDispatcher("welkomPretpark.jsp");
                 
                 
+            }else if(request.getParameter("zoekAttractie") !=null){
+                String attractieNaam = request.getParameter("attractieNaam");
+                
+                ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
+                
+                if(pretparken == null){
+                    request.setAttribute("errorMessage", "Pretpark is leeg!");
+                    rd = request.getRequestDispatcher("error.jsp");
+                    rd.forward(request, response);
+                }
+                                
+                                
+                Attractie attractie = null;
+                for (Pretpark pretpark : pretparken){
+                    attractie = pretpark.zoekAttractieOpNaam(attractieNaam);
+                    if(attractie != null){
+                        break;
+                    }
+                }
+                
+                if(attractie == null){
+                    request.setAttribute("errorMessage", "Geen Attractie gevonden!");
+                    rd = request.getRequestDispatcher("error.jsp");
+                    rd.forward(request, response);
+                }
+                
+                session.setAttribute("pretparken", pretparken);                         
+                
+                request.setAttribute("attractie", attractie);
+                rd = request.getRequestDispatcher("bewerkAttractie.jsp");
+                
+                
+            }else if(request.getParameter("opslaanAttractie") !=null){
+                //get naam
+                String attractieNaam = request.getParameter("attractienaam");
+                long duur = Long.parseLong(request.getParameter("duur"));                
+                String fotobestand = request.getParameter("fotobestand");
+                String personeelslid = request.getParameter("personeelslidverandwoordelijke");
+
+                ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
+                
+                if(pretparken == null){
+                    request.setAttribute("errorMessage", "Pretpark is leeg session!");
+                    rd = request.getRequestDispatcher("error.jsp");
+                    rd.forward(request, response);
+                }
+                                
+                
+                Attractie attractie = null;
+                for (Pretpark pretpark : pretparken){
+                    attractie = pretpark.zoekAttractieOpNaam(attractieNaam);
+                    if(attractie != null){
+                        break;
+                    }
+                }
+                
+                if(attractie == null){
+                    request.setAttribute("errorMessage", "Geen Attractie gevonden!");
+                    rd = request.getRequestDispatcher("error.jsp");
+                    rd.forward(request, response);
+                }
+                
+                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                //zoeken 
+                for (Personeelslid personeel : personeelsleden){
+                    if((personeel.getVoornaam() + "-" + personeel.getFamilienaam()).equals(personeelslid) ){
+                        attractie.setVerantwoordelijke(personeel);
+                        break;
+                    }
+                }                
+               
+                //gegevens weiziggen
+                attractie.setNaam(attractieNaam);
+                attractie.setDuur(duur);
+                attractie.setFoto(fotobestand);
+                
+                
+                session.setAttribute("pretparken", pretparken); 
+                
+                rd = request.getRequestDispatcher("index.jsp");
+                
+                
+            }else if(request.getParameter("dateNaamdateLeeftijd") !=null){
+                // get parameters
+                int bezoeker1Index = Integer.parseInt(request.getParameter("bezoeker1"));
+                int bezoeker2Index = Integer.parseInt(request.getParameter("bezoeker2"));
+                
+                ArrayList<Bezoeker> bezoekers = (ArrayList<Bezoeker>) session.getAttribute("bezoekers");
+                
+                if(bezoekers == null){
+                    request.setAttribute("errorMessage", "Geen bezoekers aanwezig!");
+                    rd = request.getRequestDispatcher("error.jsp");
+                    rd.forward(request, response);
+                }
+                
+                
+                // object calc relatie                
+                Relatie relatie = new Relatie(bezoekers.get(bezoeker1Index),bezoekers.get(bezoeker2Index));
+                
+                String leef = relatie.getScoreLeeftijd();
+                String score =  Integer.toString(relatie.getScoreNaam()); 
+                        
+                
+                    
+                request.setAttribute("leeftijd", leef);
+                request.setAttribute("score", score);
+
+                rd = request.getRequestDispatcher("overzichtPretparkdate.jsp");
+                
+                
             }
+            
+            
             
             
             

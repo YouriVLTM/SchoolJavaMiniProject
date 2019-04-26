@@ -12,6 +12,7 @@ package fact.it.www.beans;
 public class Persoon {
     private String voornaam;
     private String familienaam;
+    private int geboortejaar;
 
     public Persoon() {
     }
@@ -19,6 +20,7 @@ public class Persoon {
     public Persoon(String voornaam, String familienaam) {
         this.voornaam = voornaam;
         this.familienaam = familienaam;
+        this.geboortejaar = 2000;
     }
 
     public String getVoornaam() {
@@ -36,6 +38,20 @@ public class Persoon {
     public void setFamilienaam(String familienaam) {
         this.familienaam = familienaam;
     }
+
+    public int getGeboortejaar() {
+        return geboortejaar;
+    }
+
+    public void setGeboortejaar(int geboortejaar) {
+        this.geboortejaar = geboortejaar;
+    }
+    
+    
+    public String getVolledigeNaam(){
+        return this.getVoornaam() + " " + this.getFamilienaam();
+    }
+    
     
     public String toString(){
         return getFamilienaam().toUpperCase() + " " + getVoornaam().toLowerCase();

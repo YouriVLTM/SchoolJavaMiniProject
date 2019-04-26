@@ -23,6 +23,9 @@
             <p><label for="achternaam">Achternaam:</label>
                 <input type="text" id="achternaam" name="achternaam" size="10" /></p>
             
+            <p><label for="geboortejaar">geboortejaar</label>
+                <input type="text" id="geboortejaar" name="geboortejaar" size="10" /></p>
+            
             
             <!--<input type="checkbox" id="bezocht" name="bezocht" value="true">
                 <label for="bezocht">Al bezocht</label>
