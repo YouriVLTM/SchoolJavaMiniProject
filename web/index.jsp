@@ -29,6 +29,12 @@
                 <input type="text" id="attractieNaam" name="attractieNaam" value="" size="10" /></p>
             <input type="submit" name="zoekAttractie" value="Zoek de attractie op" />
         </form>
+        
+        
+        <form action="MaakServlet" method="POST">
+            
+            <input type="submit" name="test" value="TEST" />
+        </form>
 
     </body>
 </html>

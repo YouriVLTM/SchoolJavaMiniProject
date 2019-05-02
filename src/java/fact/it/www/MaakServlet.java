@@ -104,11 +104,16 @@ public class MaakServlet extends HttpServlet {
                 // persooneelsleden bestaat niet!!
                 ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
                 if (personeelsleden == null) {
-                    request.setAttribute("errorMessage", "Voeg eerst personeelsleden toe!");
-                    rd = request.getRequestDispatcher("error.jsp");
-                    rd.forward(request, response);
+                    //request.setAttribute("errorMessage", "Voeg eerst personeelsleden toe!");
+                    //rd = request.getRequestDispatcher("error.jsp");
+                    System.out.println("Forward");
+                    sendErrorRedirect(request,response,"/error.jsp","Voeg eerst personeelsleden toe!");
+                    System.out.println("Nog langer bezig");
+                    //rd.doFilter(request, response);
+                    //rd.forward(request, response);
                     
-                }        
+                    //throw new NullPointerException("Error");
+                }
                 
                 
                 // haal de array op
@@ -362,8 +367,7 @@ public class MaakServlet extends HttpServlet {
                 rd = request.getRequestDispatcher("overzichtPretparkdate.jsp");
                 
                 
-            }
-            
+            }        
             
             
             
@@ -414,4 +418,15 @@ public class MaakServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
+
+    protected void sendErrorRedirect(HttpServletRequest request,   HttpServletResponse response, String errorPageURL, String errorMessage)
+           throws ServletException, IOException {
+        
+        request.setAttribute ("errorMessage", errorMessage);
+        getServletConfig().getServletContext().
+        getRequestDispatcher(errorPageURL).forward(request,response);
+    }
+
 }
+
