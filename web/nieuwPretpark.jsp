@@ -4,25 +4,46 @@
     Author     : yourivanlaer
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Maak een nieuwe pretpark aan</h1>
-        <form action="MaakServlet" method="post" >
-            <p><label for="naam">Naam van het pretpark:</label>
-                <input type="text" id="naam" name="naam" size="10" /></p>
-      
-            
-            <input type="submit" name="nieuwpretpark" value="Maak pretpark aan" />
-            
-        </form>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
+<template:template title="Nieuw bezoeker">
+    <jsp:attribute name="content">
         
-        <a href="index.jsp">Terug</a>
+        <!-- banner -->
+<section class="banner_inner" id="home">
+	<div class="banner_inner_overlay">
+	</div>
+</section>
+<!-- //banner -->
+<!-- tour packages -->
+<section class="packages pt-5">
+	<div class="container py-lg-4 py-sm-3">
+		
+		<div class="row">               
+				
+                    <div class="col-lg-12 contact-left-form">
+                        <h2 class="heading text-capitalize text-center mb-5">Maak een nieuwe <strong>Pretpark</strong> aan.</h2>
+                            <form action="MaakServlet" method="post">
+                                    <div class="form-group contact-forms">
+                                        <label for="naam">Naam van het pretpark:</label>
+                                      <input type="text" class="form-control" id="naam" name="naam" placeholder="Pretpark naam" required=""> 
+                                    </div>
+                    
+                                    <input type="submit" class="btn btn-block sent-butnn btn-primary btn-lg " name="nieuwpretpark" value="Maak pretpark aan" />
+                                   
+                                 </div>
+                            </form>
+                    </div>
+		</div>
+	</div>
+</section>
+<!-- tour packages -->
+
+
         
-    </body>
-</html>
+
+    </jsp:attribute>
+</template:template>

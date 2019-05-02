@@ -7,55 +7,85 @@
 <%@page import="fact.it.www.beans.Pretpark"%>
 <%@page import="java.util.ArrayList"%>
 <%ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");%>
+<% String[] attractieLijst = new String[]{ "geen", "wingo","Joepiewoepie","attractie1" };  %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8" errorPage="error.jsp"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Maak een nieuwe bezoeker aan</h1>
-        <form action="MaakServlet" method="post" >
-            <p><label for="voornaam">Voornaam:</label>
-                <input type="text" id="voornaam" name="voornaam" size="10" /></p>
-            <p><label for="achternaam">Achternaam:</label>
-                <input type="text" id="achternaam" name="achternaam" size="10" /></p>
-            
-            <p><label for="geboortejaar">geboortejaar</label>
-                <input type="text" id="geboortejaar" name="geboortejaar" size="10" /></p>
-            
-            
-            <!--<input type="checkbox" id="bezocht" name="bezocht" value="true">
-                <label for="bezocht">Al bezocht</label>
-            <br>
-            <br>-->
-            
-            <% String[] attractieLijst = new String[]{ "geen", "wingo","Joepiewoepie","attractie1" };  %>
-            <% for (String attractie : attractieLijst){ %>
-                <input type="radio" name="attractienaam" value="<%=attractie%>" id="<%=attractie%>">
-                <label for="<%=attractie%>"><%=attractie%></label>
-             <%}%>
-              
-             <br>
-             <br>
-             
-            <% for (Pretpark pretpark : pretparken){ %>
-            <input type="radio" name="pretparkindex" value="<%=pretparken.indexOf(pretpark)%>" id="<%=pretparken.indexOf(pretpark)%>">
-                <label for="<%=pretparken.indexOf(pretpark)%>"><%=pretpark.getNaam()%></label>
-             <%}%>
-        
-             <br>
-             <br>
-            
-            <input type="submit" name="nieuwbezoeker" value="Ga door als bezoeker zonder pretparkregistratie" />
-            
-            <input type="submit" name="nieuwbezoekermetpretpark" value="Ga door als bezoeker" />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
-        </form>
+<template:template title="Nieuw bezoeker">
+    <jsp:attribute name="content">
         
-        <a href="index.jsp">Terug</a>
+        <!-- banner -->
+<section class="banner_inner" id="home">
+	<div class="banner_inner_overlay">
+	</div>
+</section>
+<!-- //banner -->
+<!-- tour packages -->
+<section class="packages pt-5">
+	<div class="container py-lg-4 py-sm-3">
+		
+		<div class="row">               
+				
+                    <div class="col-lg-12 contact-left-form">
+                        <h2 class="heading text-center mb-5">Maak een nieuwe <strong>bezoeker</strong> aan.</h2>
+                            <form action="MaakServlet" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 contact-forms">
+                                        <label for="voornaam">Voornaam</label>
+                                      <input type="text" class="form-control" id="voornaam" name="voornaam" placeholder="Voornaam" required="">
+                                    </div>
+                                    <div class="form-group col-md-6 contact-forms">
+                                        <label for="achternaam">Achternaam</label>
+                                      <input type="text" class="form-control" id="achternaam" name="achternaam" placeholder="Achternaam" required="">
+                                    </div>
+                                </div>
+                                    <div class="form-group contact-forms">
+                                        <label for="geboortejaar">Geboortejaar</label>
+                                      <input type="text" class="form-control" id="geboortejaar" name="geboortejaar" placeholder="Geboortejaar" required=""> 
+                                    </div>
+                                
+                                    
+                                    <div class="form-group contact-forms">
+                                       <label>Attractie</label>
+                                       <br>
+                                      <c:forTokens items = "geen,wingo,Joepiewoepie,attractie1" delims = "," var = "attractie">
+                                            <input type="radio" name="attractienaam" value="${attractie}" id="${attractie}">
+                                               <label for="${attractie}">${attractie}</label>
+                                     </c:forTokens>
+                                    </div>
+                                
+                                 <div class="form-group contact-forms">
+                                       <label>Pretparken</label>
+                                       <br>
+                                      <c:forEach items="${pretparken}" var="pretpark">
+                                        <input type="radio" name="pretparkindex" value="${pretparken.indexOf(pretpark)}" id="${pretparken.indexOf(pretpark)}">
+                                       <label for="${pretparken.indexOf(pretpark)}">${pretpark.getNaam()}</label>
+                                    </c:forEach>
+                                    </div>
+                                 <div class="row">
+                                    <div class="col-6">
+                                        <input type="submit" class="btn btn-block sent-butnn btn-primary btn-lg " name="nieuwbezoeker" value="Ga door als bezoeker zonder pretparkregistratie" />
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="submit" class="btn btn-block sent-butnn btn-primary btn-lg " name="nieuwbezoekermetpretpark" value="Ga door als bezoeker" />
+                                     </div>
+                                 </div>
+                            </form>
+                    </div>
+			
+                
+			
+		</div>
+	</div>
+</section>
+<!-- tour packages -->
+
+
         
-    </body>
-</html>
+
+    </jsp:attribute>
+</template:template>
+
+
