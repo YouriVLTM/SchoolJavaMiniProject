@@ -14,7 +14,7 @@
 request.setAttribute("errorMessage", errorMessage);
 
 %>
-<template:template title="Nieuw bezoeker">
+<template:template title="Nieuw pretpark">
     <jsp:attribute name="content">
         
         <!-- banner -->
@@ -48,8 +48,14 @@ request.setAttribute("errorMessage", errorMessage);
                     
                                     <input type="submit" class="btn btn-block sent-butnn btn-primary btn-lg " name="nieuwpretpark" value="Maak pretpark aan" />
                                    
-                                 </div>
-                            </form>
+                                    </form>
+                        
+                        <br>
+                        <br>
+                        <a href="index.jsp">Ga terug naar Home</a>
+                        
+                       </div>
+                            
                     </div>
 		</div>
 	</div>

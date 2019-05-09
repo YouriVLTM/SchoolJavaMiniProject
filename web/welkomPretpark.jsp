@@ -40,7 +40,14 @@ request.setAttribute("pretpark", pretpark);
 					<div class="row">
                                             
 						<div class="col-sm-5 grids-img-left">
-							<img src="images/${attractie.getFoto()}" alt="" class="img-fluid">
+                                                    <c:choose>
+                                                        <c:when test="${attractie.getFoto() != null}">
+                                                            <img src="images/${attractie.getFoto()}" alt="" class="img-fluid" onerror="this.src='images/noPic.png'">
+                                                        </c:when>   
+                                                        <c:otherwise>
+                                                            <img src="images/noImage.png" alt="" class="img-fluid"> 
+                                                        </c:otherwise>
+                                                    </c:choose>
 						</div>
 						<div class="col-sm-7 right-cont">
 							<h4 class="mb-2 let mt-sm-0 mt-2 tm-clr">${attractie.getNaam()}</h4>

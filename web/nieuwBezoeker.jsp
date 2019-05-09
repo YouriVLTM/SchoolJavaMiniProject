@@ -92,7 +92,12 @@ request.setAttribute("errorMessage", errorMessage);
                                      </div>
                                  </div>
                             </form>
+                        <br>
+                        <br>
+                        <a href="index.jsp">Ga terug naar Home</a>
                     </div>
+                    
+                    
 			
                 
 			

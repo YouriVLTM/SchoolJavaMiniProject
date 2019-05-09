@@ -216,9 +216,9 @@ public class MaakServlet extends HttpServlet {
                 if(duur == 0 ){
                         errorPopUp.add("duur");
                    }
-                if(fotobestand == null || fotobestand.isEmpty() ){
+                /*if(fotobestand == null || fotobestand.isEmpty() ){
                         errorPopUp.add("fotoBestand");
-                   }
+                   }*/
                 if(personeelslidVerantwoordlijke == null || personeelslidVerantwoordlijke.isEmpty() ){
                         errorPopUp.add("personeelslidVerantwoordlijke");
                    }
@@ -230,7 +230,7 @@ public class MaakServlet extends HttpServlet {
                     for (String popup : errorPopUp ){
                         error = error +  "<li>" + popup + " is leeg</li>";
                     }
-                    sendErrorRedirect(request,response,"/nieuwattractie.jsp",error);
+                    sendErrorRedirect(request,response,"/nieuwAttractie.jsp",error);
                     
                 }else {
                     //NEW VERSION
@@ -379,7 +379,7 @@ public class MaakServlet extends HttpServlet {
                 ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
                 
                 if(pretparken == null){                    
-                    sendErrorRedirect(request,response,"/nieuwPersoneelslid.jsp","Pretpark is leeg!");
+                    sendErrorRedirect(request,response,"/error.jsp","Pretpark is leeg!");
                 }
                                 
                                 
@@ -392,7 +392,7 @@ public class MaakServlet extends HttpServlet {
                 }
                 
                 if(attractie == null){
-                    sendErrorRedirect(request,response,"/nieuwPersoneelslid.jsp","Geen Attractie gevonden!");
+                    sendErrorRedirect(request,response,"/error.jsp","Geen Attractie gevonden!");
                 }
                 
                 session.setAttribute("pretparken", pretparken);                         
@@ -415,9 +415,9 @@ public class MaakServlet extends HttpServlet {
                 if(duur == 0 ){
                         errorPopUp.add("duur");
                    }
-                if(fotobestand == null || fotobestand.isEmpty() ){
+                /*if(fotobestand == null || fotobestand.isEmpty() ){
                         errorPopUp.add("fotobestand");
-                   }
+                   }*/
                 if(personeelslid == null || personeelslid.isEmpty() ){
                         errorPopUp.add("personeelslidVerantwoordlijke");
                    }

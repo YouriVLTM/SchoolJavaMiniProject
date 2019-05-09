@@ -16,7 +16,7 @@ session.setAttribute("personeelsleden", personeelsleden);
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
-<template:template title="Nieuw bezoeker">
+<template:template title="Welkome personeelslid">
     <jsp:attribute name="content">
         
                 <!-- banner -->

@@ -27,7 +27,7 @@ request.setAttribute("errorMessage", errorMessage);
 <!-- tour packages -->
 <section class="packages pt-5">
 	<div class="container py-lg-4 py-sm-3">
-		<h2 class="heading text-capitalize text-center">ERROR page!</h2>
+		<h2 class="heading text-capitalize text-center text-danger">ERROR page!</h2>
 		<p class="text mt-2 mb-5 text-center">${errorMessage}</p>
                 
             

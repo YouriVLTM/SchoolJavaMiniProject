@@ -14,7 +14,7 @@ request.setAttribute("bezoekers", bezoekers);
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
-<template:template title="Nieuw Attractie">
+<template:template title="Pretpark date">
     <jsp:attribute name="content">
         
         <!-- banner -->

@@ -23,6 +23,7 @@
 						<div class="container">
 							<div class="w3layouts-banner-info">
 								<h3 class="text-wh">Pretpark</h3>
+                                                                <h4>Van Laer Youri</h4>
 								<div class="buttons mt-4">
 									<a href="#" class="btn mr-2">Welkom op onze pretparken</a>
 								</div>

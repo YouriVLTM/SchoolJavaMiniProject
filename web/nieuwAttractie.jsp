@@ -10,10 +10,7 @@
 request.setAttribute("personeelsleden", personeelsleden);
 
 String errorMessage = (String)request.getAttribute("errorMessage");
-
 request.setAttribute("errorMessage", errorMessage);
-
-
 %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -85,6 +82,11 @@ request.setAttribute("errorMessage", errorMessage);
                                 
                                  
                             </form>
+                                    
+                                    <br>
+                        <br>
+                        <a href="index.jsp">Ga terug naar Home</a>
+                        
                     </div>
 			
                 
