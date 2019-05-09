@@ -30,12 +30,12 @@ ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.ge
 		<div class="row">               
 				
                     <div class="col-lg-12 contact-left-form">
-                        <h2 class="heading text-center mb-5">Maak een nieuwe <strong>attractie</strong> aan.</h2>
+                        <h2 class="heading text-center mb-5">Bewerk <strong>attractie</strong> aan.</h2>
                             <form action="MaakServlet" method="post">
                                                                
                                     <div class="form-group contact-forms">
                                         <label for="attractienaam">Attractie naam</label>
-                                      <input type="text" class="form-control" id="attractienaam" name="attractienaam" placeholder="attractienaam" value="${attractie.getNaam()}" required=""> 
+                                      <input type="text" class="form-control" id="attractienaam" name="attractienaam" placeholder="attractienaam" value="${attractie.getNaam()}" > 
                                     </div>
                                 
                                     <div class="form-group contact-forms">
@@ -44,8 +44,8 @@ ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.ge
                                     </div>
                                     
                                     <div class="form-group contact-forms">
-                                        <label for="fotoBestand">Naam van fotobestand</label>
-                                      <input type="text" class="form-control" id="fotoBestand" name="fotoBestand" placeholder="fotoBestand" value="${attractie.getFoto()}" required=""> 
+                                        <label for="fotobestand">Naam van fotobestand</label>
+                                      <input type="text" class="form-control" id="fotobestand" name="fotobestand" placeholder="fotobestand" value="${attractie.getFoto()}" required=""> 
                                     </div>
                                 
                                     

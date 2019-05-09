@@ -24,7 +24,8 @@
 
 
   <!-- css files -->
-  <link href="assets/css/bootstrap.css" rel='stylesheet' type='text/css' />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!--<link href="assets/css/bootstrap.css" rel='stylesheet' type='text/css' />-->
   <!-- bootstrap css -->
   <link href="assets/css/style.css" rel='stylesheet' type='text/css' />
   <!-- custom css -->

@@ -54,16 +54,17 @@ public class Pretpark {
         bezoeker.setPretparkcode(this.aantalBezoekers);
     }
     
-    public int pretparkMatch(Bezoeker bezoeker){
-        int counter = 0;
+    public int pretparkMatch(Bezoeker bezoeker){        
+        int counter=0;       
         for(String attractie : bezoeker.getWishlist()){
             if(this.zoekAttractieOpNaam(attractie) !=null){
                 counter++;
             }
-        }        
-        return (counter/this.getAantalAttracties())*100;
+        } 
+        return (int)((counter*1.00/(bezoeker.getAantalOpWishlist()))*100);    
     }
     
-    
-    
 }
+    
+    
+    

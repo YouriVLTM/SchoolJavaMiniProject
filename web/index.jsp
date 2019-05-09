@@ -10,6 +10,8 @@
 
 <template:template title="Home">
     <jsp:attribute name="content">
+        
+
 <!-- banner -->
 <section class="banner_w3lspvt" id="home">
 	<div class="csslider infinity" id="slider1">
@@ -206,6 +208,8 @@
                 
 	</div>
 </section>
+
+
 
 
     </jsp:attribute>

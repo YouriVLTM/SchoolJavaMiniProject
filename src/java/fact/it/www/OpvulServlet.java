@@ -47,7 +47,6 @@ public class OpvulServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                    if (actie.equals("opvullen")) {
                        
-                     //personen en bezoekers
                         ArrayList<Personeelslid> personeelsleden = new ArrayList<>();
                         personeelsleden.add(new Personeelslid("Jitse", "Verhaegen"));
                         personeelsleden.add(new Personeelslid("Bert", "De Meulenaere"));
@@ -63,7 +62,7 @@ public class OpvulServlet extends HttpServlet {
                         bezoekers.get(1).voegToeAanWishlist("Jump");
                         bezoekers.get(1).voegToeAanWishlist("Aquaglide");
                         bezoekers.get(2).voegToeAanWishlist("Weerwolf");
-                //pretparken
+                       //pretparken
                         ArrayList<Pretpark> pretparken = new ArrayList<>();
                         Pretpark pretpark1 = new Pretpark("Park 2020");
                         Pretpark pretpark2 = new Pretpark("Jong en oud");
@@ -99,11 +98,7 @@ public class OpvulServlet extends HttpServlet {
 
                         // terug naar index page 
                         rd = request.getRequestDispatcher("index.jsp");           
-                   }  else if (actie.equals("overzichtbezoekers")) {
-                       
-                       
-                       rd = request.getRequestDispatcher("overzichtBezoeker.jsp");         
-                   }                
+                   }               
                    rd.forward(request, response);
             }
   

@@ -9,6 +9,11 @@
 <%@ taglib prefix="template" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
+<% String errorMessage = (String)request.getAttribute("errorMessage");
+
+request.setAttribute("errorMessage", errorMessage);
+
+%>
 <template:template title="Nieuw bezoeker">
     <jsp:attribute name="content">
         
@@ -26,10 +31,19 @@
 				
                     <div class="col-lg-12 contact-left-form">
                         <h2 class="heading text-capitalize text-center mb-5">Maak een nieuwe <strong>Pretpark</strong> aan.</h2>
+                        <c:if test="${errorMessage != null}">
+                        <div class="alert alert-danger">
+                            <strong>Alert!</strong> 
+                            <ul>
+                                ${errorMessage}
+                            </ul>
+                          </div>
+                        </c:if>
+                        
                             <form action="MaakServlet" method="post">
                                     <div class="form-group contact-forms">
                                         <label for="naam">Naam van het pretpark:</label>
-                                      <input type="text" class="form-control" id="naam" name="naam" placeholder="Pretpark naam" required=""> 
+                                      <input type="text" class="form-control" id="naam" name="naam" placeholder="Pretpark naam" > 
                                     </div>
                     
                                     <input type="submit" class="btn btn-block sent-butnn btn-primary btn-lg " name="nieuwpretpark" value="Maak pretpark aan" />

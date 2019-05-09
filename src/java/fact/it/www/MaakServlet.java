@@ -45,107 +45,241 @@ public class MaakServlet extends HttpServlet {
             //global settings
             //TODO error page
             RequestDispatcher rd = null;
+            ArrayList<String> errorPopUp = new ArrayList<>();
             
-            String test = request.getParameter("nieuwbezoeker");
+            
+            try{
             
             if(request.getParameter("nieuwbezoeker") !=null || request.getParameter("nieuwbezoekermetpretpark") !=null){
-                
                 //get parameters
-                String voornaam = request.getParameter("voornaam");
-                String achternaam = request.getParameter("achternaam");
-                String attractie = request.getParameter("attractienaam");
-                int geboortejaar = Integer.parseInt(request.getParameter("geboortejaar"));
-                
-                // Bezoeker aanmaken
-                Bezoeker bezoeker = new Bezoeker(voornaam, achternaam);
-                // bezoeker geboortedatum toevoegen 
-                bezoeker.setGeboortejaar(geboortejaar);
-                
-                /*if(bezocht){
-                    bezoeker.setPretparkcode(1000);
-                }*/
-
-                if (!attractie.equals("geen")){
-                    // kijken binnen het bereik
-                    bezoeker.voegToeAanWishlist(attractie);
-                }
-                
-                // Haal de array op
-                ArrayList<Bezoeker> bezoekers = (ArrayList<Bezoeker>) session.getAttribute("bezoekers");
-                // kijken of de array bestaat 
-                if (bezoekers == null) {                    
-                    bezoekers = new ArrayList<>();
-                    bezoekers.add(bezoeker);
+                    
+                    String voornaam = request.getParameter("voornaam");
+                    String achternaam = request.getParameter("achternaam");
+                    String attractie = request.getParameter("attractienaam");
+                    int geboortejaar = Integer.parseInt(request.getParameter("geboortejaar"));
+                    // check if is valid 
+                    if(voornaam.isEmpty() || voornaam == null){
+                        errorPopUp.add("Voornaam");
+                    }
+                    if(achternaam.isEmpty() || achternaam == null){
+                        errorPopUp.add("Achternaam");
+                    }
+                    if(attractie == null || attractie.isEmpty() ){
+                         errorPopUp.add("Attractie");
+                    }
+                    if(geboortejaar == 0){
+                        errorPopUp.add("geboortejaar");
+                    }
+                    //kijken 
+                    if(request.getParameter("nieuwbezoekermetpretpark") !=null){
+                        int pretparkindex = Integer.parseInt(request.getParameter("pretparkindex"));
+                        if(pretparkindex == 0){
+                            errorPopUp.add("pretparkindex");
+                        }
+                    }
+               
+                //kijken of er een foutmelding aanwezig is
+                if(!errorPopUp.isEmpty()){
+                    // een error message generen 
+                    String error="";
+                    for (String popup : errorPopUp ){
+                        error = error +  "<li>" + popup + " is leeg</li>";
+                    }
+                    sendErrorRedirect(request,response,"/nieuwBezoeker.jsp",error);
                 }else{
-                    // als de sessie al reeds bestaat 
-                    bezoekers.add(bezoeker);                    
-                }                
-                //request.setAttribute("Bezoeker", bezoeker)               
-                session.setAttribute("bezoekers", bezoekers);
+                    
                 
-                //Met pretpark
-                if(request.getParameter("nieuwbezoekermetpretpark") !=null){
+                
+                    // Bezoeker aanmaken
+                    Bezoeker bezoeker = new Bezoeker(voornaam, achternaam);
+                    // bezoeker geboortedatum toevoegen 
+                    bezoeker.setGeboortejaar(geboortejaar);
+
+                    /*if(bezocht){
+                        bezoeker.setPretparkcode(1000);
+                    }*/
+
+                    if (!attractie.equals("geen")){
+                        // kijken binnen het bereik
+                        bezoeker.voegToeAanWishlist(attractie);
+                    }
+
                     // Haal de array op
-                    ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");                    
-                    int pretparkindex = Integer.parseInt(request.getParameter("pretparkindex"));
-                    // Het registreren van een bezoeker
-                    pretparken.get(pretparkindex).registreerBezoeker(bezoeker);
-                }
-                
-                rd = request.getRequestDispatcher("welkomBezoeker.jsp");
+                    ArrayList<Bezoeker> bezoekers = (ArrayList<Bezoeker>) session.getAttribute("bezoekers");
+                    // kijken of de array bestaat 
+                    if (bezoekers == null) {                    
+                        bezoekers = new ArrayList<>();
+                        bezoekers.add(bezoeker);
+                    }else{
+                        // als de sessie al reeds bestaat 
+                        bezoekers.add(bezoeker);                    
+                    }                
+                    //request.setAttribute("Bezoeker", bezoeker)               
+                    session.setAttribute("bezoekers", bezoekers);
+
+                    //Met pretpark
+                    if(request.getParameter("nieuwbezoekermetpretpark") !=null){
+                        // Haal de array op
+                        ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");                    
+                        int pretparkindex = Integer.parseInt(request.getParameter("pretparkindex"));
+                        // Het registreren van een bezoeker
+                        pretparken.get(pretparkindex).registreerBezoeker(bezoeker);
+                    }
+
+                    rd = request.getRequestDispatcher("welkomBezoeker.jsp");
+                    
+                }                
                 
                 
             }else if(request.getParameter("nieuwpretpark") !=null){
                 //get parameters
-                String pretparkNaam = request.getParameter("naam");                
-                // Hoeft eignelijk niet
-                Pretpark pretpark = new Pretpark(pretparkNaam);
+                String pretparkNaam = request.getParameter("naam"); 
                 
-                // persooneelsleden bestaat niet!!
-                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
-                if (personeelsleden == null) {
-                    //request.setAttribute("errorMessage", "Voeg eerst personeelsleden toe!");
-                    //rd = request.getRequestDispatcher("error.jsp");
-                    System.out.println("Forward");
-                    sendErrorRedirect(request,response,"/error.jsp","Voeg eerst personeelsleden toe!");
-                    System.out.println("Nog langer bezig");
-                    //rd.doFilter(request, response);
-                    //rd.forward(request, response);
+                
+                // kijken valid 
+                if(pretparkNaam == null || pretparkNaam.isEmpty() ){
+                        errorPopUp.add("pretpark");
+                   }
+                
+                //kijken of er een foutmelding aanwezig is
+                if(!errorPopUp.isEmpty()){
+                    // een error message generen 
+                    String error="";
+                    for (String popup : errorPopUp ){
+                        error = error +  "<li>" + popup + " is leeg</li>";
+                    }
+                    sendErrorRedirect(request,response,"/nieuwPretpark.jsp",error);
+                }else {
                     
-                    //throw new NullPointerException("Error");
+                    // Hoeft eignelijk niet
+                    Pretpark pretpark = new Pretpark(pretparkNaam);
+
+
+                    // persooneelsleden bestaat niet!!
+                    ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                    if (personeelsleden == null) {
+                        sendErrorRedirect(request,response,"/error.jsp","Voeg eerst personeelsleden toe!");
+                    }else{
+                        
+                        // haal de array op
+                        ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
+                        // kijken of de array bestaat 
+                        if (pretparken == null) {                    
+                            pretparken = new ArrayList<>();
+                            pretparken.add(pretpark);
+                        }else{
+                            boolean exist = false;
+                            // kijken of al bestaat zo ja de pretpark behouden
+                            for (Pretpark pretparke : pretparken){
+                                if(pretparke.getNaam().equals(pretpark.getNaam())){
+                                    pretpark = pretparke;
+                                    exist = true;
+                                    break;
+                                }
+                            }
+                            // als de sessie al reeds bestaat 
+                            if(!exist){
+                                pretparken.add(pretpark);                 
+                            }                        
+                                   
+                        }
+
+                        // pretpark opslaan
+                        session.setAttribute("pretparken", pretparken);
+
+                        request.setAttribute("pretpark", pretparken.get(pretparken.size() - 1));
+                        request.setAttribute("personeelsleden", personeelsleden);
+
+                        rd = request.getRequestDispatcher("nieuwAttractie.jsp");
+
+                    }
+
+                
                 }
                 
-                
-                // haal de array op
-                ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
-                // kijken of de array bestaat 
-                if (pretparken == null) {                    
-                    pretparken = new ArrayList<>();
-                    pretparken.add(pretpark);
-                }else{
-                    // als de sessie al reeds bestaat 
-                    pretparken.add(pretpark);                    
-                }
-                
-                
-                    
-                
-                // pretpark opslaan
-                session.setAttribute("pretparken", pretparken);
-                
-                
-                request.setAttribute("pretpark", pretparken.get(pretparken.size() - 1));
-                request.setAttribute("personeelsleden", personeelsleden);
-                
-                rd = request.getRequestDispatcher("nieuwAttractie.jsp");
                 
             }else if(request.getParameter("nieuwattractie") !=null){
                 //get parameters
                 String pretparkNaam = request.getParameter("pretparknaam"); 
                 String attractieNaam = request.getParameter("attractienaam");
                 long duur = Long.parseLong(request.getParameter("duur"));
-                String fotoBestand = request.getParameter("fotobestand");
+                String fotobestand = request.getParameter("fotobestand");
                 String personeelslidVerantwoordlijke = request.getParameter("personeelslidverandwoordelijke");
+                
+                // kijken valid 
+                if(pretparkNaam == null || pretparkNaam.isEmpty() ){
+                        errorPopUp.add("pretparkNaam");
+                   }
+                if(attractieNaam == null || attractieNaam.isEmpty() ){
+                        errorPopUp.add("attractieNaam");
+                   }
+                if(duur == 0 ){
+                        errorPopUp.add("duur");
+                   }
+                if(fotobestand == null || fotobestand.isEmpty() ){
+                        errorPopUp.add("fotoBestand");
+                   }
+                if(personeelslidVerantwoordlijke == null || personeelslidVerantwoordlijke.isEmpty() ){
+                        errorPopUp.add("personeelslidVerantwoordlijke");
+                   }
+                
+                //kijken of er een foutmelding aanwezig is
+                if(!errorPopUp.isEmpty()){
+                    // een error message generen 
+                    String error="";
+                    for (String popup : errorPopUp ){
+                        error = error +  "<li>" + popup + " is leeg</li>";
+                    }
+                    sendErrorRedirect(request,response,"/nieuwattractie.jsp",error);
+                    
+                }else {
+                    //NEW VERSION
+                    // kijken of het pretpark al bestaat 
+                    ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
+                    //kijken of pretparken niet leeg is 
+                    if(pretparken == null){                         
+                        sendErrorRedirect(request,response,"/error.jsp","Pretpark is leeg!");
+                    }else{
+                        //search for pretpark   
+                        Pretpark pretpark = null;
+                        for(Pretpark pretpa : pretparken){
+                            if(pretpa.getNaam().equals(pretparkNaam)){
+                                pretpark = pretpa;
+                            }
+                        }
+
+                        // Als pretpark niet bestaat dan -> al nog toevoegen
+                        if (pretpark == null) {                    
+                            pretparken = new ArrayList<>();
+                            pretparken.add(pretpark);
+                        }
+
+                        //attractie
+                        Attractie attractie = new Attractie(attractieNaam);
+                        attractie.setDuur(duur);
+                        attractie.setFoto(fotobestand);
+
+                        ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                        // zoek juist personeelslid
+                        for (Personeelslid personeel : personeelsleden){
+                            if((personeel.getVoornaam() + "-" +personeel.getFamilienaam()).equals(personeelslidVerantwoordlijke)){
+                                attractie.setVerantwoordelijke(personeel);
+                            }
+                        }
+
+
+                        // attractie toevoegen aan pretpark
+                        pretpark.voegAttractieToe(attractie);
+
+
+                        request.setAttribute("pretpark", pretpark);
+                        rd = request.getRequestDispatcher("welkomPretpark.jsp");
+                    }
+                    
+                    
+                    
+                    
+                }
 
                 /*moet lijst aangemaatk worden?*/
                 /*ArrayList<Personeelslid> personeelslidLijst = new ArrayList();
@@ -180,75 +314,57 @@ public class MaakServlet extends HttpServlet {
                 pretpark.voegAttractieToe(attractie);
                 
 */              
-                //NEW VERSION
-                // kijken of het pretpark al bestaat 
-                ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
-                //kijken of pretparken niet leeg is 
-                if(pretparken == null){
-                    request.setAttribute("errorMessage", "Pretpark is leeg!");
-                    rd = request.getRequestDispatcher("error.jsp");
-                    rd.forward(request, response);
-                }
-                //search for pretpark   
-                Pretpark pretpark = null;
-                for(Pretpark pretpa : pretparken){
-                    if(pretpa.getNaam().equals(pretparkNaam)){
-                        pretpark = pretpa;
-                    }
-                }
-                                
-                // Als pretpark niet bestaat dan -> al nog toevoegen
-                if (pretpark == null) {                    
-                    pretparken = new ArrayList<>();
-                    pretparken.add(pretpark);
-                }
-                               
-                //attractie
-                Attractie attractie = new Attractie(attractieNaam);
-                attractie.setDuur(duur);
-                attractie.setFoto(fotoBestand);
                 
-                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
-                // zoek juist personeelslid
-                for (Personeelslid personeel : personeelsleden){
-                    if((personeel.getVoornaam() + "-" +personeel.getFamilienaam()).equals(personeelslidVerantwoordlijke)){
-                        attractie.setVerantwoordelijke(personeel);
-                    }
-                }
-                
-                
-                // attractie toevoegen aan pretpark
-                pretpark.voegAttractieToe(attractie);
-                
-                
-                request.setAttribute("pretpark", pretpark);
-                rd = request.getRequestDispatcher("welkomPretpark.jsp");
                 
                 
             }else if(request.getParameter("nieuwpersoneelslid") !=null){
                //get parameters
                 String voornaam = request.getParameter("voornaam"); 
                 String achternaam = request.getParameter("achternaam");
-                Personeelslid personeelslid = new Personeelslid(voornaam, achternaam);
                 
-                // haal de array op
-                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
-                // kijken of de array bestaat 
-                if (personeelsleden == null) {                    
-                    personeelsleden = new ArrayList<>();
-                    personeelsleden.add(personeelslid);
-                }else{
-                    // als de sessie al reeds bestaat 
-                    personeelsleden.add(personeelslid);                    
+                
+                
+                // kijken valid 
+                if(voornaam == null || voornaam.isEmpty() ){
+                        errorPopUp.add("voornaam");
+                   }
+                if(achternaam == null || achternaam.isEmpty() ){
+                        errorPopUp.add("achternaam");
+                   }                
+                
+                //kijken of er een foutmelding aanwezig is
+                if(!errorPopUp.isEmpty()){
+                    // een error message generen 
+                    String error="";
+                    for (String popup : errorPopUp ){
+                        error = error +  "<li>" + popup + " is leeg</li>";
+                    }
+                    sendErrorRedirect(request,response,"/nieuwPersoneelslid.jsp",error);
+                    
+                }else {
+                    
+                    Personeelslid personeelslid = new Personeelslid(voornaam, achternaam);
+                    // haal de array op
+                    ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                    // kijken of de array bestaat 
+                    if (personeelsleden == null) {                    
+                        personeelsleden = new ArrayList<>();
+                        personeelsleden.add(personeelslid);
+                    }else{
+                        // als de sessie al reeds bestaat 
+                        personeelsleden.add(personeelslid);                    
+                    }
+
+                    session.setAttribute("personeelsleden", personeelsleden);
+
+                    rd = request.getRequestDispatcher("welkomPersoneelslid.jsp");
+                    
+                    
                 }
                 
-                // request.setAttribute("personeelslid", personeelslid);
-               
-                session.setAttribute("personeelsleden", personeelsleden);
-
-                rd = request.getRequestDispatcher("welkomPersoneelslid.jsp");
                 
-            }else if(request.getParameter("pretpark") !=null){
+                
+            }else if(request.getParameter("pretpark") !=null){                
                 int pretpakId = Integer.parseInt(request.getParameter("pretpark"));
                 ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
                 
@@ -262,10 +378,8 @@ public class MaakServlet extends HttpServlet {
                 
                 ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
                 
-                if(pretparken == null){
-                    request.setAttribute("errorMessage", "Pretpark is leeg!");
-                    rd = request.getRequestDispatcher("error.jsp");
-                    rd.forward(request, response);
+                if(pretparken == null){                    
+                    sendErrorRedirect(request,response,"/nieuwPersoneelslid.jsp","Pretpark is leeg!");
                 }
                                 
                                 
@@ -278,9 +392,7 @@ public class MaakServlet extends HttpServlet {
                 }
                 
                 if(attractie == null){
-                    request.setAttribute("errorMessage", "Geen Attractie gevonden!");
-                    rd = request.getRequestDispatcher("error.jsp");
-                    rd.forward(request, response);
+                    sendErrorRedirect(request,response,"/nieuwPersoneelslid.jsp","Geen Attractie gevonden!");
                 }
                 
                 session.setAttribute("pretparken", pretparken);                         
@@ -296,47 +408,73 @@ public class MaakServlet extends HttpServlet {
                 String fotobestand = request.getParameter("fotobestand");
                 String personeelslid = request.getParameter("personeelslidverandwoordelijke");
 
-                ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
+                // kijken valid                
+                if(attractieNaam == null || attractieNaam.isEmpty() ){
+                        errorPopUp.add("attractieNaam");
+                   }
+                if(duur == 0 ){
+                        errorPopUp.add("duur");
+                   }
+                if(fotobestand == null || fotobestand.isEmpty() ){
+                        errorPopUp.add("fotobestand");
+                   }
+                if(personeelslid == null || personeelslid.isEmpty() ){
+                        errorPopUp.add("personeelslidVerantwoordlijke");
+                   }
                 
-                if(pretparken == null){
-                    request.setAttribute("errorMessage", "Pretpark is leeg session!");
-                    rd = request.getRequestDispatcher("error.jsp");
-                    rd.forward(request, response);
-                }
-                                
-                
-                Attractie attractie = null;
-                for (Pretpark pretpark : pretparken){
-                    attractie = pretpark.zoekAttractieOpNaam(attractieNaam);
-                    if(attractie != null){
-                        break;
+                //kijken of er een foutmelding aanwezig is
+                if(!errorPopUp.isEmpty()){
+                    // een error message generen 
+                    String error="";
+                    for (String popup : errorPopUp ){
+                        error = error +  "<li>" + popup + " is leeg</li>";
                     }
-                }
+                    sendErrorRedirect(request,response,"/error.jsp",error);
+                    
+                }else {
+                    
+                     ArrayList<Pretpark> pretparken = (ArrayList<Pretpark>) session.getAttribute("pretparken");
                 
-                if(attractie == null){
-                    request.setAttribute("errorMessage", "Geen Attractie gevonden!");
-                    rd = request.getRequestDispatcher("error.jsp");
-                    rd.forward(request, response);
-                }
-                
-                ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
-                //zoeken 
-                for (Personeelslid personeel : personeelsleden){
-                    if((personeel.getVoornaam() + "-" + personeel.getFamilienaam()).equals(personeelslid) ){
-                        attractie.setVerantwoordelijke(personeel);
-                        break;
+                    if(pretparken == null){
+                        sendErrorRedirect(request,response,"/error.jsp","Pretpark is leeg session!");
+                        
                     }
-                }                
-               
-                //gegevens weiziggen
-                attractie.setNaam(attractieNaam);
-                attractie.setDuur(duur);
-                attractie.setFoto(fotobestand);
+
+
+                    Attractie attractie = null;
+                    for (Pretpark pretpark : pretparken){
+                        attractie = pretpark.zoekAttractieOpNaam(attractieNaam);
+                        if(attractie != null){
+                            break;
+                        }
+                    }
+                    if(attractie == null){
+                        sendErrorRedirect(request,response,"/error.jsp","Geen Attractie gevonden!");
+                    }
+
+                    ArrayList<Personeelslid> personeelsleden = (ArrayList<Personeelslid>) session.getAttribute("personeelsleden");
+                    //zoeken 
+                    for (Personeelslid personeel : personeelsleden){
+                        if((personeel.getVoornaam() + "-" + personeel.getFamilienaam()).equals(personeelslid) ){
+                            attractie.setVerantwoordelijke(personeel);
+                            break;
+                        }
+                    }                
+
+                    //gegevens weiziggen
+                    attractie.setNaam(attractieNaam);
+                    attractie.setDuur(duur);
+                    attractie.setFoto(fotobestand);
+
+
+                    session.setAttribute("pretparken", pretparken); 
+
+                    rd = request.getRequestDispatcher("index.jsp");
+                    
+                    
+                }
                 
                 
-                session.setAttribute("pretparken", pretparken); 
-                
-                rd = request.getRequestDispatcher("index.jsp");
                 
                 
             }else if(request.getParameter("dateNaamdateLeeftijd") !=null){
@@ -347,9 +485,7 @@ public class MaakServlet extends HttpServlet {
                 ArrayList<Bezoeker> bezoekers = (ArrayList<Bezoeker>) session.getAttribute("bezoekers");
                 
                 if(bezoekers == null){
-                    request.setAttribute("errorMessage", "Geen bezoekers aanwezig!");
-                    rd = request.getRequestDispatcher("error.jsp");
-                    rd.forward(request, response);
+                    sendErrorRedirect(request,response,"/error.jsp","Geen bezoekers aanwezig!");
                 }
                 
                 
@@ -370,11 +506,12 @@ public class MaakServlet extends HttpServlet {
             }        
             
             
-            
-            
             rd.forward(request, response);
             
-            
+            }catch(Exception e){
+            System.out.print(e);
+            sendErrorRedirect(request,response,"/error.jsp",e.getMessage());
+        }
             
         }
     }

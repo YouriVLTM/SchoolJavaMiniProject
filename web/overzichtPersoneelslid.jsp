@@ -54,7 +54,7 @@ session.setAttribute("personeelsleden", personeelsleden);
         </div>
     </c:otherwise>
 </c:choose>
-
+        <br>
         <a class="btn btn-outline-primary" href="nieuwPersoneelslid.jsp">Maak nieuwe Personeelsid aan</a>
 	</div>
 </section>
